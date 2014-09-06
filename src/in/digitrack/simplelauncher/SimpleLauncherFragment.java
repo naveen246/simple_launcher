@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,15 +39,16 @@ public class SimpleLauncherFragment extends ListFragment {
 			}
 		});
 		
-		ArrayAdapter<ResolveInfo> adapter = new ArrayAdapter<ResolveInfo>(getActivity(), android.R.layout.simple_list_item_1, activities) {
+		ArrayAdapter<ResolveInfo> adapter = new ArrayAdapter<ResolveInfo>(getActivity(), R.layout.list_item_launcher, R.id.launcher_list_item_TextView, activities) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				PackageManager pm = getActivity().getPackageManager();
 				View v = super.getView(position, convertView, parent);
-				TextView tv = (TextView)v;
+				TextView tv = (TextView)(v.findViewById(R.id.launcher_list_item_TextView));
 				ResolveInfo ri = getItem(position);
 				tv.setText(position+1 + ". " + ri.loadLabel(pm));
-				tv.setCompoundDrawables(null, null, ri.loadIcon(pm), null);
+				ImageView icon = (ImageView)(v.findViewById(R.id.launcher_list_item_icon));
+				icon.setImageDrawable(ri.loadIcon(pm));
 				return v;
 			}
 		};
